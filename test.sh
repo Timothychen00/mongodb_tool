@@ -2,11 +2,17 @@ function clean_up {
     sleep 2
     echo "[Clean_up]stop Mongodb Docker"
     ID=$(cat container_ID.txt)
-    echo "[Clean_up]target container " $ID
-    sudo docker stop $ID
-    sudo docker rm $ID
-    killall "MongoDB Compass"
-    killall "Docker Desktop"
+    if [ -z "$ID" ] 
+    then
+        echo "[Clean_up]No Container left to be cleaned" 
+    else
+        echo "[Clean_up]$ID needs to be cleaned!"
+        sudo docker stop $ID
+        sudo docker rm $ID
+    fi
+    osascript -e 'quit app "Docker"' 
+    osascript -e 'quit app "MongoDB Compass"'
+    >"container_ID.txt"
     exit 0
 }
 
@@ -34,11 +40,10 @@ echo $DOCEKR_ID "is runnning in the background"
 echo "[script] starting mongodb compass"
 
 open -a open -a "MongoDB Compass" --args mongodb://localhost:27017;
-# 
-
-
-
+#
 
 
 while true; do
+    sleep 5
+    echo "sleeping"
 done
