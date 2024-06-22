@@ -1,5 +1,8 @@
 # Mongodb Local Test Tool
 author: Timothychen
+
+This script includes safe trap for the manual exit clean up
+
 ## Usage
 open your terminal and type
 ```
