@@ -8,7 +8,7 @@ function clean_up {
     else
         echo "[Clean_up]$ID needs to be cleaned!"
         sudo docker stop $ID
-        sudo docker rm $ID
+        sudo docker kill $ID
     fi
     osascript -e 'quit app "Docker"' 
     osascript -e 'quit app "MongoDB Compass"'
@@ -31,10 +31,20 @@ echo "[script] start running docker daemon!"
 open -a docker
 sleep 1
 echo "[script] pulling image from MongoDB"
+docker pull mongo
 sleep 1
 echo "[script] runnning local mongodb with no auth!!"
 sleep 1
 DOCKER_ID=$(docker run -p 27017:27017 -d  mongo)
+# if [ $? -eq 125 ]
+# then
+while [ $? -eq 125 ];     do
+    sleep 2
+    echo "[script] retry"
+    DOCKER_ID=$(docker run -p 27017:27017 -d  mongo)
+done
+# fi
+echo $DOCKER_ID
 echo $DOCKER_ID >> 'container_ID.txt'
 echo $DOCEKR_ID "is runnning in the background"
 echo "[script] starting mongodb compass"
