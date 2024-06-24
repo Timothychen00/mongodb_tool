@@ -10,7 +10,7 @@ function clean_up {
         sudo docker stop $ID
         sudo docker kill $ID
     fi
-    osascript -e 'quit app "Docker"' 
+    osascript -e 'quit app "Docker Desktop"' 
     osascript -e 'quit app "MongoDB Compass"'
     >"container_ID.txt"
     exit 0
